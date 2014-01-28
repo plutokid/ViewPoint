@@ -1,0 +1,7 @@
+<div id="add_to_pending_form">
+  <% if current_user.pending_locations.where(:location_id => @location).blank? %>
+    <%= render 'pending_locations/add' %>
+  <% else %>
+    <%= render 'pending_locations/remove' %>
+  <% end %>
+</div>

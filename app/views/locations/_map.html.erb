@@ -1,0 +1,73 @@
+<!--this map partial is used for location creation and editing-->
+
+<p style="font-size: 12px">(Click on the map to pin the location!)</p>
+      <div>
+
+      Address: <input type="text" id="address_text_input" style="width: 200px;" title="Address to Geocode" onkeydown="if (event.keyCode == 13) {document.getElementById('geocode_input_btn').click(); event.preventDefault();}">
+      <input type="button" onclick="codeAddress()" id="geocode_input_btn" class="btn btn-default" style="width:150px; margin-bottom: 10px;" title="Go to Address" value="Go to Address" />
+
+      <div id="map_container">
+
+        <!--------------------------------- MAP ------------------------>
+        <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfWZ1V6gJ-51aVwIbXuLbh3u-rsGDxaDE&sensor=false">
+        </script>
+        <script type="text/javascript">
+
+        var geocoder;
+        var markersArray = [];
+
+        var mymap;
+        function initialize() {
+          geocoder = new google.maps.Geocoder();
+          var mapOptions = {
+            <% if @location.gps_location %>
+              center: new google.maps.LatLng(<%= @location.gps_location.to_s.split(", ")[0] %>, <%= @location.gps_location.to_s.split(", ")[1] %>),
+            <% else %> 
+              center: new google.maps.LatLng(<%= current_user.gps_location.to_s.split(", ")[0] %>, <%= current_user.gps_location.to_s.split(", ")[1] %>),
+            <% end %>
+            zoom: 19,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
+          mymap = new google.maps.Map(document.getElementById("map_container"), mapOptions);
+
+          google.maps.event.addListener(mymap, 'click', function(event) {
+
+            google.maps.Map.prototype.clearOverlays = function() {
+              for (var i = 0; i < markersArray.length; i++ ) {
+                markersArray[i].setMap(null);
+              }
+              markersArray.length = 0;
+            }
+
+            mymap.clearOverlays();
+            placeMarker(event.latLng);
+            $("#location_gps_location").val(event.latLng.lat() + ", " + event.latLng.lng());
+            $("#user_gps_location").val(event.latLng.lat() + ", " + event.latLng.lng());
+          });
+        }
+
+        function placeMarker(location) {
+          var marker = new google.maps.Marker({
+              position: location, 
+              map: mymap
+          });
+          markersArray.push(marker);
+        }
+
+        function codeAddress() {
+          sAddress = document.getElementById("address_text_input").value;
+          geocoder.geocode( { 'address': sAddress}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+              mymap.panTo(results[0].geometry.location);
+            } else{
+              alert("Could not find address for the following reason: " + status);
+            }
+          });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+        </script>
+
+      </div>

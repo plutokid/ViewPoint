@@ -1,0 +1,4 @@
+<%= form_for(current_user.pending_locations.find_by(location_id: @location.id), html: { method: :delete }, remote: true) do |f| %>
+  <div><%= f.hidden_field :location_id, :value => @location.id %></div>
+  <%= f.submit "Remove from Pending", class: "btn btn-default btn-lg active span3 pull-right" %>
+<% end %>

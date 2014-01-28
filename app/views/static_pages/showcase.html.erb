@@ -1,0 +1,18 @@
+<% provide(:page_title, 'Showcase') %>
+<h1>Showcase</h1>
+<% if Location.any? %>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Click on a thumbnail to expand. Click again to minimize.
+  <div id="popup">
+  	<% @locations.each do |location| %>
+
+  	<div class="img" popup=<%=location.image.url%>>
+
+  	<%= image_tag(location.image.url(:thumbnail), :class => "thumb") %>
+
+  	</div>
+
+  <% end %>
+
+  </div>
+
+<% end%>

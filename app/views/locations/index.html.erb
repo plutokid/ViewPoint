@@ -1,0 +1,19 @@
+<% provide(:page_title, "Viewpoints") %>
+<div class="row" id="locations_page">
+    <div class="span2 list-group" id="viewpoints_col">
+    	
+		<% if @default_location %>
+		    <%= link_to (@default_location.title + ' <br/> Difficulty: ' + @default_location.difficulty.to_s).html_safe, preview_location_path(@default_location), :class => 'list-group-item default', :id => @default_location.id, :remote => true %>
+
+			<% if @locations %>
+				<% @locations.each do |location| %>
+				    <%= link_to (location.title + ' <br/> Difficulty: ' + location.difficulty.to_s).html_safe,  preview_location_path(location), :class => 'list-group-item', :id => location.id, :remote => true %>
+				<% end %>
+			<% end %>
+		<% end %>
+
+    </div>
+
+    <div id = "location-preview" class="span10"></div>
+    
+</div>

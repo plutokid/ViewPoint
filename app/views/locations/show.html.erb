@@ -1,0 +1,68 @@
+<% provide(:page_title, @location.title) %>
+<div class="row">
+  <aside class="span12">
+    <section>
+      <div class="row">
+        <h2 class="span6">
+        <%= @location.title %>
+        <% if signed_in? %> 
+          <% unless current_user.user_responses.where(location_id: @location.id).blank? %>
+          (Completed)
+          <% end %>
+        <% end %>
+        <br> </h2>
+        
+        <% if current_user == @location.user %>
+          <%= link_to "Edit Viewpoint", edit_location_path(@location), :class => "btn btn-default btn-lg span2 pull-right", :id => "edit_loc_btn" %>
+        <% end %>
+
+        <% if signed_in? %>
+          <% if current_user.user_responses.where(location_id: @location.id).blank? && current_user != @location.user %>
+          <%= link_to "Complete this Viewpoint", new_user_response_path(@location), class: "btn btn-default btn-lg span3 pull-right", id: "complete_viewpoint_btn" %>
+          <%= render 'shared/add_to_pending_form' %>
+          <% end %>
+        <% end %>
+
+        <div class="row"></div>
+        <p class="preview_p"> Originally taken by: <%= @location.user.name %> </p> <br><br>
+
+        </div>
+
+      <div class="row">
+
+        <% unless @user_responses.blank? %>
+        <div class="span2" id="other_photos_col">
+          Click on a submission to enlarge. <br><br>
+          <%= image_tag @location.image.url(:thumbnail), :full_img => @location.image.url, :comments => "Original Photo Selected" %>
+          <% @user_responses.each do |user_response| %>
+            <%= image_tag user_response.image.url(:thumbnail), :class => "other_photos_pic", :full_img => user_response.image.url, :comments => user_response.comments %>
+          <% end %>
+        </div>
+
+        <div class="span10">
+        <% else %>
+        <div class="span12">
+        <% end %>
+        <%= image_tag @location.image.url, :id => "location_pic" %>
+        <dl id="descriptions">
+          <dt>Comments Associated With Photo</dt>
+          <dd id="comments_data">Original Photo Selected</dd>
+          <dt>Description</dt>
+          <dd><%= @location.description %></dd>
+          <dt>GPS Location</dt>
+          <dd><%= @location.gps_location %></dd>
+          <dt>Difficulty</dt>
+          <dd><%= @location.difficulty %></dd>
+          <dt>Hints</dt>
+          <dd><%= @location.hints %></dd>
+          <dt>Suggestions</dt>
+          <dd><%= @location.suggestions %></dd>
+        </dl>
+
+        </div>
+
+      </div>
+
+    </section>
+  </aside>
+</div>

@@ -1,0 +1,93 @@
+#location-preview h2.span9 {
+    margin-bottom: 0;
+}
+
+#location-preview input.btn.btn-default.btn-lg {
+    float: left;
+}
+
+a.btn.btn-default.btn-lg, input.btn.btn-default.btn-lg {
+    font-size: 1.2em;
+    margin: 15px 0 15px 20px;
+    padding: 10px 0;
+    vertical-align: top;
+}
+
+a.btn.btn-default.btn-lg:first-child {
+    margin-left: 40px;
+}
+
+a.list-group-item:hover {
+    background-color: #357EC7;
+    color: black;
+    text-decoration: none;
+}
+
+#locations_page div {
+    overflow-y: auto;
+    max-height: 615px;
+}
+
+#explore_location_btn {
+    float: right;
+    background-color: #dddddd;
+    border: 2px solid;
+    color: black;
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    margin: 20px;
+    text-align: center;
+    text-decoration: none;
+    width: 40%;
+}
+
+#preview_img {
+    width: 98%;
+}
+
+.preview_p {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 1.4em;
+    margin: 5px;
+    margin-bottom: 0;
+    margin-left: 50px;
+    margin-top: 0;
+}
+
+#add_to_pending_btn {
+    background-color: #dddddd;
+    border: 2px solid;
+    color: black;
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    margin: 20px;
+    text-align: center;
+    text-decoration: none;
+    width: 40%;
+}
+
+#add_to_pending_btn:hover, #explore_location_btn:hover {
+    background-color: white;
+}
+
+#location_pic {
+    width: 100%;
+}
+
+#other_photos_col {
+    overflow-y: auto;
+    max-height: 710px;
+}
+
+.other_photos_pic {
+    margin-top: 10px;
+}
+
+#edit_loc_btn {
+    margin-right: 20px;
+}

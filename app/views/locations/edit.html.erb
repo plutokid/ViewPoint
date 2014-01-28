@@ -1,0 +1,48 @@
+<% provide(:page_title, 'Edit Viewpoint') %>
+<% if signed_in? && current_user == @location.user %>
+
+<h4>Edit Viewpoint</h4>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for @location, :html => { :multipart => true} do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+
+      <%= f.label :description %>
+      <%= f.text_area :description, rows: 6 %>
+
+      <%= f.label :gps_location, "Location" %>
+        <%= render 'map' %>
+      <%= f.text_field :gps_location, readonly: true %>
+
+      <%= f.label :difficulty %>
+      <div class="form-inline">
+        <%= f.label :difficulty, "1" %>
+        <%= f.radio_button :difficulty, 1, checked: true %>
+        <% 2.upto(10).each do |n| %>
+          <%= f.label :difficulty, "#{n}" %>
+          <%= f.radio_button :difficulty, n %>
+        <% end %>
+      </div>
+
+      <%= f.label :hints %>
+      <%= f.text_area :hints, rows: 6 %>
+
+      <%= f.label :suggestions %>
+      <%= f.text_area :suggestions, rows: 6  %>
+
+      <div class="field">
+        <%= f.label :image, "Upload new image if necessary" %>
+        <%= f.file_field :image %>
+      </div>
+
+      <%= f.hidden_field :user_id, :value => @current_user.id %>
+
+      <%= f.submit "Create", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>
+<% end %>

@@ -1,0 +1,33 @@
+<% provide(:page_title, 'Complete Viewpoint') %>
+<h4><%= @location.title %></h4>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for @user_response, :html => { :multipart => true} do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label :comments %>
+      <%= f.text_area :comments, rows: 6, placeholder: "Submit comments about what you thought about this!" %>
+
+      <%= f.label :rating %>
+      <div class="form-inline">
+        <%= f.label :rating, "1" %>
+        <%= f.radio_button :rating, 1, checked: true %>
+        <% 2.upto(10).each do |n| %>
+          <%= f.label :rating, "#{n}" %>
+          <%= f.radio_button :rating, n %>
+        <% end %>
+      </div>
+
+      <div class="field">
+        <%= f.label :image, "Upload Image" %>
+        <%= f.file_field :image %>
+      </div>
+
+      <%= f.hidden_field :user_id, :value => @current_user.id %>
+      <%= f.hidden_field :location_id, :value => params[:format] %>
+
+      <%= f.submit "Create", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>

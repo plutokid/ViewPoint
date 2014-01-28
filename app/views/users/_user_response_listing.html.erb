@@ -1,0 +1,24 @@
+<div class="row">
+	<h2 class="span10">
+	  <%= @location.title %>
+	  <% if signed_in? %>	
+		  <% unless current_user.user_responses.where(location_id: @location.id).blank? %>
+		  (Completed)
+		  <%= link_to "Edit Submission", edit_user_response_path(current_user.user_responses.where(location_id: @location.id).first), :class => "btn btn-default btn-lg span2 pull-right", :id => "edit_submission_btn" %>
+		  <% end %>
+	  <% end %>
+	  <br> </h2>
+	<p class="preview_p"> Originally taken by: <%= @location.user.name %></p>
+	<p class="preview_p"> My Rating: <%= UserResponse.where(user_id: current_user.id, location_id: @location.id).first.rating %></p>
+	
+	<div class="row">
+		<%= link_to "Explore this Viewpoint", location_path(@location.id), :class => "btn btn-default btn-lg span3" %>
+		<% if signed_in? %>
+          <% if current_user.user_responses.where(location_id: @location.id).blank? && current_user != @location.user %>
+          <%= render 'shared/add_to_pending_form' %>
+          <% end %>
+		<% end %>
+	</div>
+</div>
+<div class="row"></div>
+<%= image_tag UserResponse.where(user_id: current_user.id, location_id: @location.id).first.image.url(:preview), :id => "preview_img" %>

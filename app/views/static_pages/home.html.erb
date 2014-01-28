@@ -1,0 +1,19 @@
+<div class="jumbotron">
+  <%= image_tag "viewpoint.gif"%>
+  <div class="container">
+    <h1>ViewPoint</h1>
+
+    <div id="about">
+        <h3>
+            Viewpoint shows our cities the ways they should be seen – through the eyes of those who see its most striking features every day.
+        </h3>
+    </div>
+
+    <br>
+
+    <% if not signed_in? %>
+    <%= link_to "Sign up now!", signup_path, class: "btn btn-large btn-primary", id: "home_sign_up_btn" %>
+    <% end %>
+  </div>
+</div>
+

@@ -1,0 +1,31 @@
+// Place all the styles related to the Users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#map_container {
+	height: 450px;
+}
+
+#user_show_content {
+	margin-bottom: 30px;
+}
+
+.tab-pane div {
+    overflow-y: auto;
+    max-height: 700px;
+}
+
+#map_container div {
+    overflow-y: visible;
+}
+
+.tab-pane input.btn.btn-default.btn-lg {
+    float: left;
+}
+
+#edit_submission_btn {
+	font-size: .5em;
+	font-weight: 400;
+	margin-right: 10px;
+    margin-top: -7px;
+}

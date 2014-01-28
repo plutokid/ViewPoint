@@ -1,0 +1,31 @@
+<div class="row">
+	<h2 class="span7">
+	  <%= @location.title %>
+	  <% if signed_in? %>	
+		  <% unless current_user.user_responses.where(location_id: @location.id).blank? %>
+		  (Completed)
+		  <% end %>
+	  <% end %>
+	  <br> </h2>
+	  <% if current_user == @location.user %>
+        <%= link_to "Edit Viewpoint", edit_location_path(@location), :class => "btn btn-default btn-lg span2 pull-right", :id => "edit_loc_btn" %>
+      <% end %>
+
+	<p class="preview_p"> Originally taken by: <%= @location.user.name %></p>
+	<% unless @location.user_responses.blank? %>
+	  <p class="preview_p"> Average Rating: <%= @avg_rating %></p>
+	<% end %>
+	
+	<div class="row">
+		<%= link_to "Explore this Viewpoint", location_path(@location.id), :class => "btn btn-default btn-lg span3" %>
+		<% if signed_in? %>
+          <% if current_user.user_responses.where(location_id: @location.id).blank? && current_user != @location.user %>
+          <%= render 'shared/add_to_pending_form' %>
+          <% end %>
+
+          
+		<% end %>
+	</div>
+</div>
+<div class="row"></div>
+<%= image_tag @location.image.url(:preview), :id => "preview_img" %>

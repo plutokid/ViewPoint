@@ -1,0 +1,4 @@
+<%= form_for(current_user.pending_locations.build(location_id: @location.id), remote: true) do |f| %>
+  <div><%= f.hidden_field :location_id %></div>
+  <%= f.submit "Add to Pending", class: "btn btn-default btn-lg span3 pull-right" %>
+<% end %>

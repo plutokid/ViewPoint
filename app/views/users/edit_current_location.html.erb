@@ -1,0 +1,16 @@
+<% provide(:page_title, 'Change Current Location') %>
+<h1>Change Current Location</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@user) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label :gps_location, "Location" %>
+        <%= render 'shared/map' %>
+      <%= f.text_field :gps_location, readonly: true, placeholder: "Latitude, Longitude" %>
+
+      <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>

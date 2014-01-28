@@ -1,0 +1,132 @@
+<% provide(:page_title, @user.name) %>
+
+<div class="row" id="user_show_content">
+  <aside class="span12">
+    <section>
+      <h2>
+        <%= @user.name %>
+      </h2>
+      <br>
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#map" data-toggle="tab">Map</a></li>
+          <li><a href="#gallery" data-toggle="tab">Gallery</a></li>
+          <li><a href="#created_views" data-toggle="tab">Created Viewpoints</a>
+          <li><a href="#pending_views" data-toggle="tab">Pending Viewpoints</a>
+          <li><a href="#completed_views" data-toggle="tab">Completed Viewpoints</a></li>
+        </ul>
+
+        <div class="span12">
+          <div class="tab-content">
+
+            <div class="tab-pane active" id="map">
+              <%= render 'map' %>
+            </div>
+
+
+            <div class="tab-pane" id="gallery">
+
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Click on a thumbnail to expand. Click again to minimize. <br> <br>
+
+              <div id="popup">
+              <% current_user.user_responses.each do |user_response| %>
+
+              <div class="img" popup=<%=user_response.image.url%>>
+
+                <%= image_tag(user_response.image.url(:thumbnail), :class => "thumb") %>
+
+              </div>
+
+              <% end %>
+
+              <% Location.where(user_id: current_user.id).each do |created_location| %>
+
+              <div class="img" popup=<%=created_location.image.url%>>
+
+                <%= image_tag(created_location.image.url(:thumbnail), :class => "thumb") %>
+
+              </div>
+
+              <% end %>
+              </div>
+
+            </div>
+
+
+            <div class="tab-pane" id="created_views">
+
+
+              <div class="row" id="locations_page">
+                  <div class="span2 list-group" id="viewpoints_col">
+                    
+                    
+                    <% if @default_created_location %>
+                        <%= link_to (@default_created_location.title + ' <br/> Difficulty: ' + @default_created_location.difficulty.to_s).html_safe, created_location_user_path(@default_created_location), :class => 'list-group-item default', :id => @default_created_location.id, :remote => true %>
+
+                      <% if @created_locations %>
+                        <% @created_locations.each do |location| %>
+                            <%= link_to (location.title + ' <br/> Difficulty: ' + location.difficulty.to_s).html_safe,  created_location_user_path(location), :class => 'list-group-item', :id => location.id, :remote => true %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+
+                  </div>
+
+                  <div id = "created-location-preview" class="span10"></div>
+                  
+              </div>
+
+            </div>
+
+
+            <div class="tab-pane" id="pending_views">
+              
+
+              <div class="row" id="locations_page">
+                  <div class="span2 list-group" id="viewpoints_col">
+                    
+                    <% if @default_pending_location %>
+                        <%= link_to (@default_pending_location.title + ' <br/> Difficulty: ' + @default_pending_location.difficulty.to_s).html_safe, pending_location_user_path(@default_pending_location), :class => 'list-group-item default', :id => @default_created_location.id, :remote => true %>
+
+                      <% if @pending_locations %>
+                        <% @pending_locations.each do |location| %>
+                            <%= link_to (location.title + ' <br/> Difficulty: ' + location.difficulty.to_s).html_safe,  pending_location_user_path(location), :class => 'list-group-item', :id => location.id, :remote => true %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+
+                  </div>
+
+                  <div id = "pending-location-preview" class="span10"></div>
+              </div>
+
+            </div>
+
+
+            <div class="tab-pane" id="completed_views">
+              
+              <div class="row" id="locations_page">
+                  <div class="span2 list-group" id="viewpoints_col">
+                    <% if @default_completed_location %>
+                        <%= link_to (@default_completed_location.title + ' <br/> Difficulty: ' + @default_completed_location.difficulty.to_s).html_safe, completed_location_user_path(@default_completed_location), :class => 'list-group-item default', :id => @default_created_location.id, :remote => true %>
+
+                      <% if @completed_locations %>
+                        <% @completed_locations.each do |location| %>
+                            <%= link_to (location.title + ' <br/> Difficulty: ' + location.difficulty.to_s).html_safe,  completed_location_user_path(location), :class => 'list-group-item', :id => location.id, :remote => true %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+
+                  </div>
+
+                  <div id = "completed-location-preview" class="span10"></div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
+
+    </section>
+  </aside>
+</div>

@@ -1,0 +1,75 @@
+              Address: <input type="text" id="address_text_input" style="width: 200px;" title="Address to Geocode" onkeyup="if (event.keyCode == 13) document.getElementById('geocode_input_btn').click(); event.preventDefault();">
+              <input type="button" onclick="codeAddress()" id="geocode_input_btn" class="btn btn-default" style="width:150px; margin-bottom: 10px;" title="Go to Address" value="Go to Address" />
+
+              <div id="map_container">
+
+              <!--              MAP                 -->
+              <script type="text/javascript"
+              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfWZ1V6gJ-51aVwIbXuLbh3u-rsGDxaDE&sensor=false">
+              </script>
+              <script type="text/javascript">
+
+
+              var mymap;
+              var infoWindow = new google.maps.InfoWindow();
+              var fullBounds = new google.maps.LatLngBounds();
+
+              function initialize() {
+                geocoder = new google.maps.Geocoder();
+                var mapOptions = {
+                  center: new google.maps.LatLng(<%= current_user.gps_location.to_s.split(", ")[0] %>, <%= current_user.gps_location.to_s.split(", ")[1] %>),
+                  zoom: 19,
+                  mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                mymap = new google.maps.Map(document.getElementById("map_container"), mapOptions);
+
+                <% current_user.user_responses.each do |user_response| %>
+
+                placeMarker(new google.maps.LatLng(<%= Location.find(user_response.location_id).gps_location.to_s.split(", ")[0] %>, <%= Location.find(user_response.location_id).gps_location.to_s.split(", ")[1] %> ), '<%= user_response.image.url.to_s %>', '<%= Location.find(user_response.location_id).title.to_s %>');
+
+                <% end %>
+
+                <% Location.where(user_id: current_user.id).each do |created_location| %>
+
+                placeMarker(new google.maps.LatLng(<%= created_location.gps_location.to_s.split(", ")[0] %>, <%= created_location.gps_location.to_s.split(", ")[1] %> ), '<%= created_location.image.url.to_s %>', '<%= created_location.title.to_s %>');
+
+                <% end %>
+
+              }
+
+              function placeMarker(location, image_url, loc_title) {
+                var marker = new google.maps.Marker({
+                    position: location, 
+                    map: mymap
+                });
+
+                console.log(image_url);
+                google.maps.event.addListener(marker, 'click', (function(marker) {
+                  return function() {
+                    var content = loc_title + '<br><img src="' + image_url + '" style="width: 300px;" />';
+                    infoWindow.setContent(content);
+                    infoWindow.open(mymap, marker);
+                  };
+                })(marker));
+
+                fullBounds.extend(location);
+
+                mymap.setCenter(fullBounds.getCenter());
+                mymap.fitBounds(fullBounds);
+              }
+
+              function codeAddress() {
+                sAddress = document.getElementById("address_text_input").value;
+                geocoder.geocode( { 'address': sAddress}, function(results, status) {
+                  if (status == google.maps.GeocoderStatus.OK) {
+                    mymap.panTo(results[0].geometry.location);
+                  } else{
+                    alert("Could not find address for the following reason: " + status);
+                  }
+                });
+              }
+
+              google.maps.event.addDomListener(window, 'load', initialize);
+
+              </script>
+              </div>
